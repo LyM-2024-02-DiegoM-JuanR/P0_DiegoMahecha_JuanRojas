@@ -52,7 +52,7 @@ def parse_instruction():
         
         parse_command()
 
-    assert current_token()[0] == "END", "Se esperaba ';' después de la instrucción" + tokens[pos-2][1] + tokens[pos-1][0] + tokens[pos][1] + tokens[pos+1][1] + tokens[pos+2][1]
+    assert current_token()[0] == "END", "Se esperaba ';' después de la instrucción"
     consume()  # Consume ';'
 
 def parse_exec_block():
@@ -68,7 +68,7 @@ def parse_command():
         parse_macro_call()
         return
         
-    command = consume()  # Consume el comando
+    command = consume()  # Consume el comando o el nombre de la valiable
         
     if current_token()[0] == "ASSIGN":
         
@@ -370,10 +370,10 @@ def parse_block():
 def error(message):
     raise SyntaxError(f"Error de sintaxis: {message}")
 
-# Función principal
-def main():
+# Función inicializacion parser
+def initializeParser(archivo):
     # Lee el programa de entrada desde un archivo
-    with open("pseudocode.txt", "r") as f:
+    with open(archivo, "r") as f:
         input_text = f.read()
 
     # Tokeniza la entrada usando el lexer
@@ -388,5 +388,3 @@ def main():
     except SyntaxError as e:
         print(f"Error de sintaxis: {e}")
 
-if __name__ == "__main__":
-    main()

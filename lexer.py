@@ -4,7 +4,7 @@ import re
 VARIABLES = []
 MACROS = {}
 
-# Especificación base de los tokens (excluyendo VARIABLE y FUNCTION por ahora)
+# Especificación base de los tokens (excluyendo VARIABLE y MACRO)
 base_tokens_specifications = [
     ("EXEC", r'exec'),  # Comando de ejecución
     ("DEFINITION", r'new|var|macro'),  # Definición de variables, macros
@@ -26,36 +26,38 @@ base_tokens_specifications = [
     ("GENERIC", r'[a-z_][a-z0-9_]*') # Identificadores genéricos si no coincide otra cosa
 ]
 
-# Función para agregar una nueva variable al conjunto de VARIABLES_SET
+
 def addVariable(variable_name):
-    """Agrega una nueva variable a la lista de variablesy recompila el lexer."""
+    """Agrega una nueva variable a la lista de variables y recompila el lexer."""
     VARIABLES.append(variable_name)
     recompile_token_regex()
     
-# Función para eliminar una variable del conjunto de VARIABLES_SET
+
 def removeVariable(variable_name):
     """Elimina una variable de la lista de variables y recompila el lexer."""
     if variable_name in VARIABLES:
         VARIABLES.remove(variable_name)
         recompile_token_regex()
 
-# Función para agregar una nueva función al conjunto de FUNCTIONS_SET
+
 def addMacro(macro_name, param_count):
     """Agrega una nueva entrada al diccionario de macros."""
     MACROS[macro_name] = param_count
     recompile_token_regex()
 
-# Función para obtener el conjunto de variables
+
 def getVariablesList():
+    """Retorna la lista de variables"""
     return VARIABLES
 
-# Función para obtener el conjunto de funciones
+
 def getMacrosDict():
+    """Retorna el diccionaro de macros"""
     return MACROS
 
-# Genera la especificación de los tokens dinámicamente para las variables y funciones
+
 def generateTokenSpecifications():
-    """Genera la especificación de los tokens dinámicamente."""
+    """Genera la especificación de los tokens dinámicamente con variables y macros."""
     dynamic_token_specifications = []
 
     if MACROS:
@@ -70,16 +72,15 @@ def generateTokenSpecifications():
     else:
         dynamic_token_specifications.append(("VARIABLE", r'(?!)'))  # No hay variables, no coincidirá nada
     
-    print(dynamic_token_specifications)
     base_tokens_specifications_copy = base_tokens_specifications.copy()
     base_tokens_specifications_copy.insert(1, dynamic_token_specifications[0])
     base_tokens_specifications_copy.insert(9, dynamic_token_specifications[1])
     
     return base_tokens_specifications_copy
 
-# Recompila el patrón de regex de los tokens dinámicamente
+
 def recompile_token_regex():
-    """Recompila las expresiones regulares para el análisis léxico."""
+    """Recompila las expresiones regulares."""
     global token_regex
     token_spec = generateTokenSpecifications()
     
@@ -103,7 +104,7 @@ def tokenize(input_text):
         if token_type == "NEWLINE":
             continue  # Ignora nuevas líneas
         if token_type == "GENERIC" and token_value.strip() == "":
-            continue  # Ignora espacios vacíos o tabs
+            continue  # Ignora espacios vacíos
 
         if token_type:
             tokens.append((token_type, token_value.strip()))
