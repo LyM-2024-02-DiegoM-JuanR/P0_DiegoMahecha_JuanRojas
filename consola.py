@@ -5,7 +5,7 @@ def menu():
     print("\n--- Menú ---")
     print("1. Ingresar nombre de archivo")
     print("2. Correr parser sobre archivo seleccionado")
-    print("2. Salir")
+    print("3. Salir")
 
 
 def main():
@@ -18,6 +18,9 @@ def main():
             
         elif opcion == '2':
             initializeParser(archivo)
+            
+        elif opcion == '3':
+            break
             
         else:
             print("Opción no válida, por favor seleccione una opción válida.")

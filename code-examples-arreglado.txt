@@ -1,0 +1,42 @@
+EXEC  {	
+if (not(isblocked?(left))) then  { turnToMy(left); walk(1); } else {nop;}  fi;
+}
+
+EXEC {	
+ safeExe(walk(1));
+ moves(left,left, forward, right, back);
+} 
+
+NEW VAR rotate= 3
+NEW MACRO foo (c, p)
+{	drop(c);
+	letgo(p);
+	walk(rotate);
+}	
+EXEC  { foo (1 ,3) ; }
+
+NEW VAR one= 1
+NEW MACRO  		goend ()
+{
+	if (not (isblocked?(front)))
+	then  { walk(one); goend();  }
+	else  { nop; }
+    fi;
+}
+
+NEW MACRO fill ()
+  { 
+  rep roomForChips times 
+  {  if (not (zero?(myChips))) then { drop(1);} else { nop; } fi ;} per; 
+  }
+  
+  NEW MACRO fill1 ()
+  { 
+  do (not (zero?(roomForChips)))
+  {  if (not (zero?(myChips))) then { drop(1);}  else { nop; } fi ;
+  } od; 
+  }
+    
+NEW MACRO grabAll ()
+{ grab (balloonsHere);
+}

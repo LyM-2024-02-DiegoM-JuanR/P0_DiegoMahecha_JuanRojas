@@ -52,7 +52,7 @@ def parse_instruction():
         
         parse_command()
 
-    assert current_token()[0] == "END", "Se esperaba ';' después de la instrucción"
+    assert current_token()[0] == "END", "Se esperaba ';' después de la instrucción"+ tokens[pos-2][1] + tokens[pos-1][1] + tokens[pos][1] + tokens[pos+1][1] + tokens[pos+2][1]
     consume()  # Consume ';'
 
 def parse_exec_block():
@@ -132,7 +132,7 @@ def parse_if():
     consume()  # Consume "("
     parse_conditional()  # Analiza la condición dentro del if
     consume()  # Consume ")"
-    assert current_token()[0] == "CONTROL_STRUCTURE" and current_token()[1] == "then", "Se esperaba 'then'"
+    assert current_token()[0] == "CONTROL_STRUCTURE" and current_token()[1] == "then", "Se esperaba 'then'"+ tokens[pos-2][1] + tokens[pos-1][1] + tokens[pos][1] + tokens[pos+1][1] + tokens[pos+2][1]
     consume()  # Consume 'then'
     parse_block()  # Analiza el bloque para la parte 'then'
     if current_token()[0] == "CONTROL_STRUCTURE" and current_token()[1] == "else":
