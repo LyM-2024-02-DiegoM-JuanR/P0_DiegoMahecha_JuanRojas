@@ -13,7 +13,7 @@ Este documento detalla las diferencias entre el archivo de código proporcionado
 ### blocked?/isblocked?
 
 - **Original:** `blocked?(left)`
-- **Corregido:** `isblocked?(left)` con paréntesis adicionales en la condición.
+- **Corregido:** `isblocked?(left)` corregido segun la sintaxis del pdf.
 
 ### rooomForChips/roomForchips
 
